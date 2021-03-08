@@ -18,11 +18,11 @@
  ****************************************************************************************/
 
 .text
-.globl make_fcontext
+.globl meow_asm_context_make
 .align 2
-.type make_fcontext,@function
-make_fcontext:
-    /* first arg of make_fcontext() == top of context-stack */
+.type meow_asm_context_make,@function
+meow_asm_context_make:
+    /* first arg of meow_asm_context_make() == top of context-stack */
     movl  0x4(%esp), %eax
 
     /* reserve space for first argument of context-function
@@ -37,7 +37,7 @@ make_fcontext:
     /* on context-function entry: (ESP -0x4) % 8 == 0 */
     leal  -0x20(%eax), %eax
 
-    /* third arg of make_fcontext() == address of context-function */
+    /* third arg of meow_asm_context_make() == address of context-function */
     movl  0xc(%esp), %edx
     movl  %edx, 0x18(%eax)
 
@@ -71,7 +71,7 @@ finish:
     /* exit application */
     call  _exit@PLT
     hlt
-.size make_fcontext,.-make_fcontext
+.size meow_asm_context_make,.-meow_asm_context_make
 
 /* Mark that we don't need executable stack.  */
 .section .note.GNU-stack,"",%progbits

@@ -46,9 +46,9 @@
  *******************************************************/
 
 .text
-.globl _jump_fcontext
+.globl _meow_asm_context_jump
 .balign 16
-_jump_fcontext:
+_meow_asm_context_jump:
     ; prepare stack for GP + FPU
     sub  sp, sp, #0xb0
 

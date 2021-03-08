@@ -39,10 +39,10 @@
  *******************************************************/
 
 .text
-.globl jump_fcontext
+.globl meow_asm_context_jump
 .align 2
-.type jump_fcontext,%function
-jump_fcontext:
+.type meow_asm_context_jump,%function
+meow_asm_context_jump:
     @ save LR as PC
     push {lr}
     @ save V1-V8,LR
@@ -87,7 +87,7 @@ jump_fcontext:
     
     @ restore v1-V8,LR,PC
     pop {v1-v8,lr,pc}
-.size jump_fcontext,.-jump_fcontext
+.size meow_asm_context_jump,.-meow_asm_context_jump
 
 @ Mark that we don't need executable stack.
 .section .note.GNU-stack,"",%progbits

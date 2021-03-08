@@ -32,10 +32,10 @@
  ****************************************************************************************/
 
 .text
-.globl jump_fcontext
-.type jump_fcontext,@function
+.globl meow_asm_context_jump
+.type meow_asm_context_jump,@function
 .align 16
-jump_fcontext:
+meow_asm_context_jump:
     pushq  %rbp  /* save RBP */
     pushq  %rbx  /* save RBX */
     pushq  %r15  /* save R15 */
@@ -92,7 +92,7 @@ jump_fcontext:
 
     /* indirect jump to context */
     jmp  *%r8
-.size jump_fcontext,.-jump_fcontext
+.size meow_asm_context_jump,.-meow_asm_context_jump
 
 /* Mark that we don't need executable stack.  */
 .section .note.GNU-stack,"",%progbits

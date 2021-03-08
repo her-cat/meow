@@ -40,9 +40,9 @@
 
     AREA |.text|, CODE
     ALIGN 4
-    EXPORT jump_fcontext
+    EXPORT meow_asm_context_jump
 
-jump_fcontext PROC
+meow_asm_context_jump PROC
     @ save LR as PC
     push {lr}
     @ save V1-V8,LR

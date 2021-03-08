@@ -12,12 +12,12 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 file(GLOB_RECURSE MEOW_INCLUDES FOLLOW_SYMLINKS include/*.h)
-file(GLOB_RECURSE MEOW_SOURCES FOLLOW_SYMLINKS src/*.c)
+file(GLOB_RECURSE MEOW_SOURCES FOLLOW_SYMLINKS src/*.c deps/context/combined.S)
 
 include_directories(BEFORE ./include ./ext-src ./)
 
-message(STATUS "source=${MEOW_SOURCES}")
-message(STATUS "includes=${MEOW_INCLUDES}")
+#message(STATUS "source=${MEOW_SOURCES}")
+#message(STATUS "includes=${MEOW_INCLUDES}")
 
 execute_process(COMMAND php-config --includes OUTPUT_VARIABLE PHP_INCLUDES OUTPUT_STRIP_TRAILING_WHITESPACE)
 execute_process(COMMAND php-config --extension-dir OUTPUT_VARIABLE PHP_EXTENSION_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)
@@ -30,3 +30,7 @@ message(STATUS "php_extension_dir=${PHP_EXTENSION_DIR}")
 link_directories(${LIBRARY_OUTPUT_PATH})
 add_library(lib-meow SHARED ${MEOW_SOURCES})
 set_target_properties(lib-meow PROPERTIES OUTPUT_NAME "meow" VERSION ${MEOW_VERSION})
+
+# context
+add_executable(context examples/c/context.c)
+target_link_libraries(context lib-meow)

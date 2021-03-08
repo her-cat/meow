@@ -39,17 +39,17 @@
  *******************************************************/
 
 .text
-.globl make_fcontext
+.globl meow_asm_context_make
 .align 2
-.type make_fcontext,%function
-make_fcontext:
+.type meow_asm_context_make,%function
+meow_asm_context_make:
     @ shift address in A1 to lower 16 byte boundary
     bic  a1, a1, #15
 
     @ reserve space for context-data on context-stack
     sub  a1, a1, #104
 
-    @ third arg of make_fcontext() == address of context-function
+    @ third arg of meow_asm_context_make() == address of context-function
     str  a3, [a1,#100]
 
     @ compute abs address of label finish
@@ -65,7 +65,7 @@ finish:
     mov  a1, #0
     @ exit application
     bl  _exit@PLT
-.size make_fcontext,.-make_fcontext
+.size meow_asm_context_make,.-meow_asm_context_make
 
 @ Mark that we don't need executable stack.
 .section .note.GNU-stack,"",%progbits

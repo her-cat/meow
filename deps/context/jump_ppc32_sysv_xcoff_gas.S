@@ -1,10 +1,10 @@
-.globl .jump_fcontext
-.globl  jump_fcontext[DS]
+.globl .meow_asm_context_jump
+.globl  meow_asm_context_jump[DS]
 .align 2 
-.csect	jump_fcontext[DS]
-jump_fcontext:
-  .long	.jump_fcontext
-.jump_fcontext:
+.csect	meow_asm_context_jump[DS]
+meow_asm_context_jump:
+  .long	.meow_asm_context_jump
+.meow_asm_context_jump:
     # reserve space on stack
     subi 1, 1, 240
 

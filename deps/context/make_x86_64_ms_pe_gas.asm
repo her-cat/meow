@@ -84,13 +84,13 @@
 .file	"make_x86_64_ms_pe_gas.asm"
 .text
 .p2align 4,,15
-.globl	make_fcontext
-.def	make_fcontext;	.scl	2;	.type	32;	.endef
-.seh_proc	make_fcontext
-make_fcontext:
+.globl	meow_asm_context_make
+.def	meow_asm_context_make;	.scl	2;	.type	32;	.endef
+.seh_proc	meow_asm_context_make
+meow_asm_context_make:
 .seh_endprologue
 
-    /* first arg of make_fcontext() == top of context-stack */
+    /* first arg of meow_asm_context_make() == top of context-stack */
     movq  %rcx, %rax
 
     /* reserve 32byte shadow-space for context-function */
@@ -105,13 +105,13 @@ make_fcontext:
     /* on context-function entry: (RSP -0x8) % 16 == 0 */
     leaq  -0x128(%rax), %rax
 
-    /* third arg of make_fcontext() == address of context-function */
+    /* third arg of meow_asm_context_make() == address of context-function */
     movq  %r8, 0x118(%rax)
 
-    /* first arg of make_fcontext() == top of context-stack */
+    /* first arg of meow_asm_context_make() == top of context-stack */
     /* save top address of context stack as 'base' */
     movq  %rcx, 0xd0(%rax)
-    /* second arg of make_fcontext() == size of context-stack */
+    /* second arg of meow_asm_context_make() == size of context-stack */
     /* negate stack size for LEA instruction (== substraction) */
     negq  %rdx
     /* compute bottom address of context stack (limit) */
@@ -140,7 +140,7 @@ make_fcontext:
 
 finish:
     /* 32byte shadow-space for _exit() are */
-    /* already reserved by make_fcontext() */
+    /* already reserved by meow_asm_context_make() */
     /* exit code is zero */
     xorq  %rcx, %rcx
     /* exit application */

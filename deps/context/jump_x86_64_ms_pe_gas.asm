@@ -84,10 +84,10 @@
 .file	"jump_x86_64_ms_pe_gas.asm"
 .text
 .p2align 4,,15
-.globl	jump_fcontext
-.def	jump_fcontext;	.scl	2;	.type	32;	.endef
-.seh_proc	jump_fcontext
-jump_fcontext:
+.globl	meow_asm_context_jump
+.def	meow_asm_context_jump;	.scl	2;	.type	32;	.endef
+.seh_proc	meow_asm_context_jump
+meow_asm_context_jump:
 .seh_endprologue
 
     pushq  %rbp  /* save RBP */

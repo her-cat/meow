@@ -1,6 +1,6 @@
 .align 2
-.globl .jump_fcontext
-.jump_fcontext:
+.globl .meow_asm_context_jump
+.meow_asm_context_jump:
     # reserve space on stack
     subi  1, 1, 328
 

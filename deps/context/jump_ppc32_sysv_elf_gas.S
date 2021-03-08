@@ -67,10 +67,10 @@
  *******************************************************/
 
 .text
-.globl jump_fcontext
+.globl meow_asm_context_jump
 .align 2
-.type jump_fcontext,@function
-jump_fcontext:
+.type meow_asm_context_jump,@function
+meow_asm_context_jump:
     # reserve space on stack
     subi  %r1, %r1, 240
 
@@ -202,7 +202,7 @@ jump_fcontext:
 
     # jump to context
     bctr
-.size jump_fcontext, .-jump_fcontext
+.size meow_asm_context_jump, .-meow_asm_context_jump
 
 /* Mark that we don't need executable stack.  */
 .section .note.GNU-stack,"",%progbits

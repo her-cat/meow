@@ -32,11 +32,11 @@
  * *****************************************************/
 
 .text
-.globl jump_fcontext
+.globl meow_asm_context_jump
 .align 2
-.type jump_fcontext,@function
-.ent jump_fcontext
-jump_fcontext:
+.type meow_asm_context_jump,@function
+.ent meow_asm_context_jump
+meow_asm_context_jump:
     # reserve space on stack
     addiu $sp, $sp, -92
 
@@ -111,8 +111,8 @@ jump_fcontext:
 
     # jump to context
     jr  $t9
-.end jump_fcontext
-.size jump_fcontext, .-jump_fcontext
+.end meow_asm_context_jump
+.size meow_asm_context_jump, .-meow_asm_context_jump
 
 /* Mark that we don't need executable stack.  */
 .section .note.GNU-stack,"",%progbits

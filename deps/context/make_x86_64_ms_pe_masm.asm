@@ -80,11 +80,11 @@ EXTERN  _exit:PROC
 .code
 
 ; generate function table entry in .pdata and unwind information in
-make_fcontext PROC BOOST_CONTEXT_EXPORT FRAME
+meow_asm_context_make PROC BOOST_CONTEXT_EXPORT FRAME
     ; .xdata for a function's structured exception handling unwind behavior
     .endprolog
 
-    ; first arg of make_fcontext() == top of context-stack
+    ; first arg of meow_asm_context_make() == top of context-stack
     mov  rax, rcx
 
     ; reserve 32byte shadow-space for context-function
@@ -99,13 +99,13 @@ make_fcontext PROC BOOST_CONTEXT_EXPORT FRAME
     ; on context-function entry: (RSP -0x8) % 16 == 0
     sub  rax, 0128h
 
-    ; third arg of make_fcontext() == address of context-function
+    ; third arg of meow_asm_context_make() == address of context-function
     mov  [rax+0118h], r8
 
-    ; first arg of make_fcontext() == top of context-stack
+    ; first arg of meow_asm_context_make() == top of context-stack
     ; save top address of context stack as 'base'
     mov  [rax+0d0h], rcx
-    ; second arg of make_fcontext() == size of context-stack
+    ; second arg of meow_asm_context_make() == size of context-stack
     ; negate stack size for LEA instruction (== substraction)
     neg  rdx
     ; compute bottom address of context stack (limit)
@@ -134,11 +134,11 @@ make_fcontext PROC BOOST_CONTEXT_EXPORT FRAME
 
 finish:
     ; 32byte shadow-space for _exit() are
-    ; already reserved by make_fcontext()
+    ; already reserved by meow_asm_context_make()
     ; exit code is zero
     xor  rcx, rcx
     ; exit application
     call  _exit
     hlt
-make_fcontext ENDP
+meow_asm_context_make ENDP
 END

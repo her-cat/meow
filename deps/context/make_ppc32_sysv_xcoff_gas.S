@@ -1,15 +1,15 @@
-	.globl	make_fcontext[DS]
-	.globl .make_fcontext[PR]
+	.globl	meow_asm_context_make[DS]
+	.globl .meow_asm_context_make[PR]
 	.align 2 
-	.csect  make_fcontext[DS]
-make_fcontext:
-	.long .make_fcontext[PR]
-	.csect .make_fcontext[PR], 3
-#.make_fcontext:
+	.csect  meow_asm_context_make[DS]
+meow_asm_context_make:
+	.long .meow_asm_context_make[PR]
+	.csect .meow_asm_context_make[PR], 3
+#.meow_asm_context_make:
     # save return address into R6
     mflr  6
 
-    # first arg of make_fcontext() == top address of context-function
+    # first arg of meow_asm_context_make() == top address of context-function
     # shift address in R3 to lower 16 byte boundary
     clrrwi  3, 3, 4
 
@@ -17,7 +17,7 @@ make_fcontext:
     # including 64 byte of linkage + parameter area (R1 % 16 == 0)
     subi  3, 3, 304
 
-    # third arg of make_fcontext() == address of context-function
+    # third arg of meow_asm_context_make() == address of context-function
     stw  5, 236(3)
 
     # load LR

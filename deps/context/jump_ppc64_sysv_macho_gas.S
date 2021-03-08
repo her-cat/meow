@@ -90,9 +90,9 @@
 
 .text
 .align 2
-.globl jump_fcontext
+.globl meow_asm_context_jump
 
-_jump_fcontext:
+_meow_asm_context_jump:
     ; reserve space on stack
     subi  r1, r1, 328
 

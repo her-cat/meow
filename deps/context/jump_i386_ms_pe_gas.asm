@@ -26,10 +26,10 @@
 .file	"jump_i386_ms_pe_gas.asm"
 .text
 .p2align 4,,15
-.globl	_jump_fcontext
-.def	_jump_fcontext;	.scl	2;	.type	32;	.endef
-_jump_fcontext:
-    /* fourth arg of jump_fcontext() == flag indicating preserving FPU */
+.globl	_meow_asm_context_jump
+.def	_meow_asm_context_jump;	.scl	2;	.type	32;	.endef
+_meow_asm_context_jump:
+    /* fourth arg of meow_asm_context_jump() == flag indicating preserving FPU */
     movl  0x10(%esp), %ecx
 
     pushl  %ebp  /* save EBP */
@@ -73,16 +73,16 @@ _jump_fcontext:
     fnstcw  0x04(%esp)
 
 1:
-    /* first arg of jump_fcontext() == context jumping from */
+    /* first arg of meow_asm_context_jump() == context jumping from */
     movl  0x30(%esp), %eax
 
     /* store ESP (pointing to context-data) in EAX */
     movl  %esp, (%eax)
 
-    /* second arg of jump_fcontext() == context jumping to */
+    /* second arg of meow_asm_context_jump() == context jumping to */
     movl  0x34(%esp), %edx
 
-    /* third arg of jump_fcontext() == value to be returned after jump */
+    /* third arg of meow_asm_context_jump() == value to be returned after jump */
     movl  0x38(%esp), %eax
 
     /* restore ESP (pointing to context-data) from EDX */

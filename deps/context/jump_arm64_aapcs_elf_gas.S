@@ -54,9 +54,9 @@
 .cpu    generic+fp+simd
 .text
 .align  2
-.global jump_fcontext
-.type   jump_fcontext, %function
-jump_fcontext:
+.global meow_asm_context_jump
+.type   meow_asm_context_jump, %function
+meow_asm_context_jump:
     # prepare stack for GP + FPU
     sub  sp, sp, #0xb0
 
@@ -126,6 +126,6 @@ jump_fcontext:
     add  sp, sp, #0xb0
 
     ret x4
-.size   jump_fcontext,.-jump_fcontext
+.size   meow_asm_context_jump,.-meow_asm_context_jump
 # Mark that we don't need executable stack.
 .section .note.GNU-stack,"",%progbits

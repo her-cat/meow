@@ -32,9 +32,9 @@
  ****************************************************************************************/
 
 .text
-.globl _jump_fcontext
+.globl _meow_asm_context_jump
 .align 8
-_jump_fcontext:
+_meow_asm_context_jump:
     pushq  %rbp  /* save RBP */
     pushq  %rbx  /* save RBX */
     pushq  %r15  /* save R15 */

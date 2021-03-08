@@ -77,7 +77,7 @@
 
 .code
 
-jump_fcontext PROC BOOST_CONTEXT_EXPORT FRAME
+meow_asm_context_jump PROC BOOST_CONTEXT_EXPORT FRAME
     .endprolog
 
     push  rbp  ; save RBP
@@ -212,5 +212,5 @@ nxt3:
 
     ; indirect jump to context
     jmp  r10
-jump_fcontext ENDP
+meow_asm_context_jump ENDP
 END

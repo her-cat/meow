@@ -88,33 +88,33 @@
  *                                                     *
  *******************************************************/
 
-.globl jump_fcontext
+.globl meow_asm_context_jump
 #if _CALL_ELF == 2
 	.text
 	.align 2
-jump_fcontext:
-        addis   %r2, %r12, .TOC.-jump_fcontext@ha
-        addi    %r2, %r2, .TOC.-jump_fcontext@l
-        .localentry jump_fcontext, . - jump_fcontext
+meow_asm_context_jump:
+        addis   %r2, %r12, .TOC.-meow_asm_context_jump@ha
+        addi    %r2, %r2, .TOC.-meow_asm_context_jump@l
+        .localentry meow_asm_context_jump, . - meow_asm_context_jump
 #else
 	.section ".opd","aw"
 	.align 3
-jump_fcontext:
+meow_asm_context_jump:
 # ifdef _CALL_LINUX
-        .quad   .L.jump_fcontext,.TOC.@tocbase,0
-        .type   jump_fcontext,@function
+        .quad   .L.meow_asm_context_jump,.TOC.@tocbase,0
+        .type   meow_asm_context_jump,@function
         .text
         .align 2
-.L.jump_fcontext:
+.L.meow_asm_context_jump:
 # else
-        .hidden .jump_fcontext
-        .globl  .jump_fcontext
-        .quad   .jump_fcontext,.TOC.@tocbase,0
-        .size   jump_fcontext,24
-        .type   .jump_fcontext,@function
+        .hidden .meow_asm_context_jump
+        .globl  .meow_asm_context_jump
+        .quad   .meow_asm_context_jump,.TOC.@tocbase,0
+        .size   meow_asm_context_jump,24
+        .type   .meow_asm_context_jump,@function
         .text
         .align 2
-.jump_fcontext:
+.meow_asm_context_jump:
 # endif
 #endif
     # reserve space on stack
@@ -253,12 +253,12 @@ jump_fcontext:
     # jump to context
     bctr
 #if _CALL_ELF == 2
-	.size jump_fcontext, .-jump_fcontext
+	.size meow_asm_context_jump, .-meow_asm_context_jump
 #else
 # ifdef _CALL_LINUX
-	.size .jump_fcontext, .-.L.jump_fcontext
+	.size .meow_asm_context_jump, .-.L.meow_asm_context_jump
 # else
-	.size .jump_fcontext, .-.jump_fcontext
+	.size .meow_asm_context_jump, .-.meow_asm_context_jump
 # endif
 #endif
 

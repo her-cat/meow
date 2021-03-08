@@ -45,12 +45,12 @@
 	.register %g6,#ignore
 
 .text
-.globl make_fcontext
+.globl meow_asm_context_make
 .align 4
-.type make_fcontext,@function
+.type meow_asm_context_make,@function
 // fcontext_t *
-// make_fcontext( void * sp, std::size_t size, void (* fn)( intptr_t) )
-make_fcontext:
+// meow_asm_context_make( void * sp, std::size_t size, void (* fn)( intptr_t) )
+meow_asm_context_make:
     save %sp, -CCFSZ, %sp
     // %i0 initial stack pointer
     // %i1 stack size limit
@@ -83,7 +83,7 @@ finish:
     call _exit
      nop
 
-.size make_fcontext,.-make_fcontext
+.size meow_asm_context_make,.-meow_asm_context_make
 
 /* Mark that we don't need executable stack.  */
 .section .note.GNU-stack,"",%progbits
