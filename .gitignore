@@ -34,3 +34,4 @@ tests/*/*.log
 tests/*/*.sh
 cmake-build-debug
 .idea
+lib
