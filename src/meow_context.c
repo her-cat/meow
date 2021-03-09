@@ -6,7 +6,7 @@ static void meow_context_func(void *data)
     meow_context_t *context = (meow_context_t *) data;
 
     context->func(context->data);
-    context->end = meow_true;
+    context->finished = meow_true;
 
     meow_context_swap_out(context);
 }
@@ -33,7 +33,7 @@ meow_context_t *meow_context_create_ex(meow_context_func_t func, void *data, uin
 
     context->data = data;
     context->func = func;
-    context->end = meow_false;
+    context->finished = meow_false;
     context->stack_size = stack_size;
     context->stack = (char *) malloc(stack_size);
 
@@ -61,14 +61,14 @@ void meow_context_swap_out(meow_context_t *context)
     meow_asm_context_jump(&context->ctx, context->swap_ctx, (intptr_t) context, meow_true);
 }
 
-meow_bool_t meow_context_is_end(meow_context_t *context)
+meow_bool_t meow_context_is_finished(meow_context_t *context)
 {
-    return context->end;
+    return context->finished;
 }
 
 void meow_context_free(meow_context_t *context)
 {
-    if (!meow_context_is_end(context)) {
+    if (!meow_context_is_finished(context)) {
         return;
     }
 

@@ -34,3 +34,7 @@ set_target_properties(lib-meow PROPERTIES OUTPUT_NAME "meow" VERSION ${MEOW_VERS
 # context
 add_executable(context examples/c/context.c)
 target_link_libraries(context lib-meow)
+
+# coroutine
+add_executable(coroutine examples/c/coroutine.c)
+target_link_libraries(coroutine lib-meow)
