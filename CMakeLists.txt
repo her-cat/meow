@@ -38,3 +38,7 @@ target_link_libraries(context lib-meow)
 # coroutine
 add_executable(coroutine examples/c/coroutine.c)
 target_link_libraries(coroutine lib-meow)
+
+# coroutine_defer
+add_executable(coroutine_defer examples/c/coroutine_defer.c)
+target_link_libraries(coroutine_defer lib-meow)

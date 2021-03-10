@@ -10,6 +10,7 @@
 #define MEOW_COROUTINE_G(field)     MEOW_GLOBALS_GET(meow_coroutine, field)
 
 typedef void (*meow_coroutine_func_t)(void *);
+typedef void (*meow_coroutine_defer_func_t)(void *);
 typedef struct meow_coroutine_s meow_coroutine_t;
 
 #define MEOW_COROUTINE_STATE_MAP(XX) \
@@ -25,14 +26,19 @@ typedef enum {
 #undef MEOW_COROUTINE_STATE_GEN
 } meow_coroutine_state_t;
 
-/* TODO: defer function */
+typedef struct meow_coroutine_defer_task_s {
+    void *data;
+    meow_queue_node_t node;
+    meow_coroutine_defer_func_t func;
+} meow_coroutine_defer_task_t;
 
 struct meow_coroutine_s {
     uint32_t id;
-    meow_queue_t node;
+    meow_queue_node_t node;
     meow_context_t *context;
     meow_coroutine_t *previous;
     meow_coroutine_state_t state;
+    meow_queue_node_t defer_tasks;
 };
 
 MEOW_GLOBALS_STRUCT_BEGIN(meow_coroutine)
@@ -63,5 +69,8 @@ meow_bool_t meow_coroutine_resume(meow_coroutine_t *coroutine);
 meow_bool_t meow_coroutine_close(meow_coroutine_t *coroutine);
 
 meow_coroutine_t *meow_coroutine_run(meow_coroutine_func_t func, void *data);
+
+meow_bool_t meow_coroutine_defer(meow_coroutine_defer_func_t func, void *data);
+void meow_coroutine_execute_defer_tasks();
 
 #endif /* MEOW_COROUTINE_H */

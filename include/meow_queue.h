@@ -106,4 +106,7 @@ typedef void *meow_queue_node_t[2];
   }                                                                           \
   while (0)
 
+#define MEOW_QUEUE_FRONT_DATA(queue, type, field) \
+    ((!MEOW_QUEUE_EMPTY(queue)) ? MEOW_QUEUE_DATA(MEOW_QUEUE_NEXT(queue), type, field) : NULL)
+
 #endif /* MEOW_MEOW_QUEUE_H */

@@ -14,6 +14,8 @@ void meow_coroutine_module_init()
     main_coroutine->previous = NULL;
     main_coroutine->context = NULL;
 
+    MEOW_QUEUE_INIT(&main_coroutine->defer_tasks);
+
     MEOW_COROUTINE_G(main) = main_coroutine;
     MEOW_COROUTINE_G(current) = main_coroutine;
     MEOW_COROUTINE_G(last_id) = main_coroutine->id + 1;
@@ -48,6 +50,8 @@ meow_coroutine_t *meow_coroutine_create_ex(meow_coroutine_func_t func, void *dat
         free(coroutine);
         return NULL;
     }
+
+    MEOW_QUEUE_INIT(&coroutine->defer_tasks);
 
     return coroutine;
 }
@@ -128,6 +132,7 @@ meow_bool_t meow_coroutine_resume(meow_coroutine_t *coroutine)
     /* TODO: yield current coroutine? The scheduler has not been implemented yet. Now yield will have problems. */
 
     if (meow_context_is_finished(coroutine->context)) {
+        meow_coroutine_execute_defer_tasks();
         MEOW_COROUTINE_G(current) = coroutine->previous;
         coroutine->state = MEOW_COROUTINE_STATE_FINISHED;
         meow_coroutine_close(coroutine);
@@ -175,4 +180,35 @@ meow_coroutine_t *meow_coroutine_run(meow_coroutine_func_t func, void *data)
     }
 
     return coroutine;
+}
+
+meow_bool_t meow_coroutine_defer(meow_coroutine_defer_func_t func, void *data)
+{
+    meow_coroutine_defer_task_t *task;
+    meow_coroutine_t *coroutine = MEOW_COROUTINE_G(current);
+
+    task = (meow_coroutine_defer_task_t *) malloc(sizeof(meow_coroutine_defer_task_t));
+    if (task == NULL) {
+        meow_warn("Create defer task failed")
+        return meow_false;
+    }
+
+    task->data = data;
+    task->func = func;
+
+    MEOW_QUEUE_INSERT_TAIL(&coroutine->defer_tasks, &task->node);
+
+    return meow_true;
+}
+
+void meow_coroutine_execute_defer_tasks()
+{
+    meow_coroutine_defer_task_t *task;
+    meow_coroutine_t *coroutine = MEOW_COROUTINE_G(current);
+
+    while ((task = MEOW_QUEUE_FRONT_DATA(&coroutine->defer_tasks, meow_coroutine_defer_task_t, node))) {
+        MEOW_QUEUE_REMOVE(&task->node);
+        task->func(task->data);
+        free(task);
+    }
 }
