@@ -72,5 +72,6 @@ meow_coroutine_t *meow_coroutine_run(meow_coroutine_func_t func, void *data);
 
 meow_bool_t meow_coroutine_defer(meow_coroutine_defer_func_t func, void *data);
 void meow_coroutine_execute_defer_tasks();
+meow_bool_t meow_coroutine_sleep(long seconds);
 
 #endif /* MEOW_COROUTINE_H */

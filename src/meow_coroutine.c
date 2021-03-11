@@ -1,4 +1,6 @@
 #include <stdlib.h>
+#include <uv.h>
+#include <assert.h>
 #include "meow_coroutine.h"
 
 MEOW_GLOBALS_DECLARE(meow_coroutine);
@@ -71,7 +73,7 @@ meow_coroutine_t *meow_coroutine_get_by_index(uint32_t index)
     uint32_t count = 0;
     meow_coroutine_t *coroutine  = MEOW_COROUTINE_G(current);
 
-    while (!coroutine->previous) {
+    while (coroutine->previous != NULL) {
         count++;
         coroutine = coroutine->previous;
     }
@@ -128,8 +130,6 @@ meow_bool_t meow_coroutine_resume(meow_coroutine_t *coroutine)
     MEOW_COROUTINE_G(current) = coroutine;
 
     meow_context_swap_in(coroutine->context);
-
-    /* TODO: yield current coroutine? The scheduler has not been implemented yet. Now yield will have problems. */
 
     if (meow_context_is_finished(coroutine->context)) {
         meow_coroutine_execute_defer_tasks();
@@ -211,4 +211,34 @@ void meow_coroutine_execute_defer_tasks()
         task->func(task->data);
         free(task);
     }
+}
+
+static void meow_coroutine_sleep_timeout_func(uv_timer_t *timer)
+{
+    meow_coroutine_resume((meow_coroutine_t *) timer->data);
+}
+
+meow_bool_t meow_coroutine_sleep(long seconds)
+{
+    uv_timer_t *timer;
+    meow_coroutine_t *coroutine = MEOW_COROUTINE_G(current);
+
+    if (seconds < 0) {
+        return meow_coroutine_yield();
+    }
+
+    timer = (uv_timer_t *) malloc(sizeof(uv_timer_t));
+    assert(timer != NULL);
+
+    timer->data = coroutine;
+
+    uv_timer_init(uv_default_loop(), timer);
+    uv_timer_start(timer, meow_coroutine_sleep_timeout_func, seconds * 1000, 0);
+
+    meow_coroutine_yield();
+
+    uv_timer_stop(timer);
+    free(timer);
+
+    return meow_true;
 }
