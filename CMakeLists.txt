@@ -11,13 +11,11 @@ set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} -x assembler-with-cpp")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
-file(GLOB_RECURSE MEOW_INCLUDES FOLLOW_SYMLINKS include/*.h deps/libuv/include)
+file(GLOB_RECURSE MEOW_INCLUDES FOLLOW_SYMLINKS include/*.h)
 file(GLOB_RECURSE MEOW_SOURCES FOLLOW_SYMLINKS src/*.c deps/context/combined.S)
 
-include_directories(BEFORE ./include ./ext-src ./)
-
 add_subdirectory(deps/libuv)
-include_directories(deps/libuv/include)
+include_directories(BEFORE ./include ./ext-src ./ deps/libuv/include)
 
 #message(STATUS "source=${MEOW_SOURCES}")
 #message(STATUS "includes=${MEOW_INCLUDES}")
